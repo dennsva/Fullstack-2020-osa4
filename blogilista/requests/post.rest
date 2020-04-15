@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+content-type: application/json
+
+{
+  "title": "Test Blog 2",
+  "author": "Dennis the Menace",
+  "url": "google.com",
+  "likes": 1000000
+}
