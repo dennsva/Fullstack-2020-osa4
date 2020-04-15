@@ -1,4 +1,5 @@
 const listHelper = require('../utils/list_helper')
+const exampleBlogs = require('./example_blogs')
 
 describe('dummy', () => {
   const emptyList = []
@@ -10,17 +11,35 @@ describe('dummy', () => {
 })
 
 describe('totalLikes', () => {
-  const exampleBlogs = require('./example_blogs')
-
   test('empty list', () => {
-    expect(listHelper.totalLikes([])).toBe(0)
+    expect(listHelper.totalLikes([]))
+      .toBe(0)
   })
 
   test('list with one blog', () => {
-    expect(listHelper.totalLikes(exampleBlogs.listWithOneBlog)).toBe(5)
+    expect(listHelper.totalLikes(exampleBlogs.listWithOneBlog))
+      .toBe(5)
   })
 
   test('example blog list with six blogs', () => {
-    expect(listHelper.totalLikes(exampleBlogs.listWithSixBlogs)).toBe(36)
+    expect(listHelper.totalLikes(exampleBlogs.listWithSixBlogs))
+      .toBe(36)
+  })
+})
+
+describe('favorite blog', () => {
+  test('empty list', () => {
+    expect(listHelper.favoriteBlog([]))
+      .toBe(null)
+  })
+
+  test('list with one blog', () => {
+    expect(listHelper.favoriteBlog(exampleBlogs.listWithOneBlog).likes)
+      .toBe(5)
+  })
+
+  test('example blog list with six blogs', () => {
+    expect(listHelper.favoriteBlog(exampleBlogs.listWithSixBlogs).likes)
+      .toBe(12)
   })
 })
