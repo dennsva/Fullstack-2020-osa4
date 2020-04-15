@@ -33,16 +33,29 @@ const favoriteBlog = (blogs) => {
 const mostBlogs = (blogs) => {
   if (blogs.length === 0) return null
 
-  const authors = blogs.map(blog => blog.author)
-  const author = authors
-    .sort((author1, author2) => 
-      authors.filter(author => author === author1).length
-      - authors.filter(author => author === author2).length)
-    .slice(-1)[0]
+  const map = blogs
+    .map(blog => blog.author)
+    .reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map())
+
+  const author = [...map].reduce((acc, e) => e[1] > acc[1] ? e : acc)
 
   return {
-    author: author,
-    blogs: authors.filter(auth => auth === author).length
+    author: author[0],
+    blogs: author[1]
+  }
+}
+
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) return null
+
+  const map = blogs
+    .reduce((acc, e) => acc.set(e.author, (acc.get(e.author) || 0) + e.likes), new Map())
+
+  const author = [...map].reduce((acc, e) => e[1] > acc[1] ? e : acc)
+
+  return {
+    author: author[0],
+    likes: author[1]
   }
 }
 
@@ -51,4 +64,5 @@ module.exports = {
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 }

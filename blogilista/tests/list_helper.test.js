@@ -64,3 +64,24 @@ describe('most blogs', () => {
       .toBe(3)
   })
 })
+
+describe('most likes', () => {
+  test('empty list', () => {
+    expect(listHelper.mostLikes([]))
+      .toBe(null)
+  })
+
+  test('list with one blog', () => {
+    expect(listHelper.mostLikes(exampleBlogs.listWithOneBlog).author)
+      .toBe('Edsger W. Dijkstra')
+    expect(listHelper.mostLikes(exampleBlogs.listWithOneBlog).likes)
+      .toBe(5)
+  })
+
+  test('example blog list with six blogs', () => {
+    expect(listHelper.mostLikes(exampleBlogs.listWithSixBlogs).author)
+      .toBe('Edsger W. Dijkstra')
+    expect(listHelper.mostLikes(exampleBlogs.listWithSixBlogs).likes)
+      .toBe(17)
+  })
+})
