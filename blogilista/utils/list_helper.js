@@ -30,8 +30,25 @@ const favoriteBlog = (blogs) => {
   return blogs.find(blog => blog.likes === max)
 }
 
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) return null
+
+  const authors = blogs.map(blog => blog.author)
+  const author = authors
+    .sort((author1, author2) => 
+      authors.filter(author => author === author1).length
+      - authors.filter(author => author === author2).length)
+    .slice(-1)[0]
+
+  return {
+    author: author,
+    blogs: authors.filter(auth => auth === author).length
+  }
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
+  mostBlogs,
 }

@@ -43,3 +43,24 @@ describe('favorite blog', () => {
       .toBe(12)
   })
 })
+
+describe('most blogs', () => {
+  test('empty list', () => {
+    expect(listHelper.mostBlogs([]))
+      .toBe(null)
+  })
+
+  test('list with one blog', () => {
+    expect(listHelper.mostBlogs(exampleBlogs.listWithOneBlog).author)
+      .toBe('Edsger W. Dijkstra')
+    expect(listHelper.mostBlogs(exampleBlogs.listWithOneBlog).blogs)
+      .toBe(1)
+  })
+
+  test('example blog list with six blogs', () => {
+    expect(listHelper.mostBlogs(exampleBlogs.listWithSixBlogs).author)
+      .toBe('Robert C. Martin')
+    expect(listHelper.mostBlogs(exampleBlogs.listWithSixBlogs).blogs)
+      .toBe(3)
+  })
+})
