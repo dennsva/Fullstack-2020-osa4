@@ -27,6 +27,17 @@ test('all blogs are returned', async () => {
   expect(response.body).toHaveLength(initialBlogs.length)
 })
 
+test('all blogs have an id', async () => {
+  const response = await api.get('/api/blogs')
+
+  response.body .forEach(blog => {
+    expect(blog.id).toBeDefined()
+  })
+  response.body .forEach(blog => {
+    expect(blog._id).not.toBeDefined()
+  })
+})
+
 test('a valid blog can be added', async () => {
   const newBlog = {
     title: "Maths is cool",
