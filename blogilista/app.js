@@ -29,7 +29,7 @@ app.use(express.json())
 app.use('/api/blogs', blogsRouter)
 
 app.get('', (request, response) => {
-  response.send("Hello World!")
+  response.send("Hello World!\n")
 })
 
 module.exports = app
