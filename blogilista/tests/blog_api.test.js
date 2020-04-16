@@ -38,27 +38,45 @@ test('all blogs have an id', async () => {
   })
 })
 
-test('a valid blog can be added', async () => {
-  const newBlog = {
-    title: "Maths is cool",
-    author: "Mikko Malliblogaaja",
-    url: "http://google.com",
-    likes: 4,
-  }
+describe('post blog', () => {
+  test('a valid blog can be added', async () => {
+    const newBlog = {
+      title: "Maths is cool",
+      author: "Mikko Malliblogaaja",
+      url: "http://google.com",
+      likes: 4,
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(initialBlogs.length + 1)
+  
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).toContain(
+      'Maths is cool'
+    )
+  })
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
-
-  const blogsAtEnd = await helper.blogsInDb()
-  expect(blogsAtEnd).toHaveLength(initialBlogs.length + 1)
-
-  const titles = blogsAtEnd.map(b => b.title)
-  expect(titles).toContain(
-    'Maths is cool'
-  )
+  test('a blog with undefined likes gets 0 likes', async () => {
+    const newBlog = {
+      title: "Maths is very cool",
+      author: "Sini Kosini Tangentti",
+      url: "http://google.fi",
+    }
+  
+    const response = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    expect(response.body.likes).toBe(0)
+  })
 })
 
 afterAll(() => {
