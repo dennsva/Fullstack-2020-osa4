@@ -62,6 +62,36 @@ describe('post blog', () => {
     )
   })
 
+  test('a blog with no title is not added', async () => {
+    const newBlog = {
+      author: "Sini Kosini Tangentti",
+      url: "http://google.fi",
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const notesAtEnd = await helper.blogsInDb()
+    expect(notesAtEnd.length).toBe(initialBlogs.length)
+  })
+
+  test('a blog with no url is not added', async () => {
+    const newBlog = {
+      title: "Maths is very cool",
+      author: "Sini Kosini Tangentti",
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const notesAtEnd = await helper.blogsInDb()
+    expect(notesAtEnd.length).toBe(initialBlogs.length)
+  })
+
   test('a blog with undefined likes gets 0 likes', async () => {
     const newBlog = {
       title: "Maths is very cool",

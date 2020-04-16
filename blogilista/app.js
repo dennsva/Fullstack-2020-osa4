@@ -1,14 +1,16 @@
 const config = require('./utils/config')
+const express = require('express')
+require('express-async-errors')
+
+
 const logger = require('./utils/logger')
 
 const blogsRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
 
-const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
-
 
 const Blog = require('./models/blog.js')
 
@@ -31,5 +33,8 @@ app.use('/api/blogs', blogsRouter)
 app.get('', (request, response) => {
   response.send("Hello World!\n")
 })
+
+app.use(middleware.unknownEndpoint)
+app.use(middleware.errorHandler)
 
 module.exports = app
