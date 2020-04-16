@@ -73,8 +73,8 @@ describe('post blog', () => {
       .send(newBlog)
       .expect(400)
 
-    const notesAtEnd = await helper.blogsInDb()
-    expect(notesAtEnd.length).toBe(initialBlogs.length)
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(initialBlogs.length)
   })
 
   test('a blog with no url is not added', async () => {
@@ -88,8 +88,8 @@ describe('post blog', () => {
       .send(newBlog)
       .expect(400)
 
-    const notesAtEnd = await helper.blogsInDb()
-    expect(notesAtEnd.length).toBe(initialBlogs.length)
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(initialBlogs.length)
   })
 
   test('a blog with undefined likes gets 0 likes', async () => {
@@ -125,8 +125,32 @@ describe('delete blog', () => {
     )
   
     const titles = blogsAtEnd.map(b => b.title)
-  
     expect(titles).not.toContain(blogToDelete.title)
+  })
+})
+
+describe('put blog', () => {
+  test('a blog can be updated', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[3]
+    
+    const updatedBlog = {
+      title: "Maths is NEW",
+      author: "Milla the Reborn Mathematician",
+      url: "http://google.com",
+      likes: 40,
+    }
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlog)
+      .expect(200)
+  
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(initialBlogs.length)
+  
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).toContain(updatedBlog.title)
   })
 })
 
