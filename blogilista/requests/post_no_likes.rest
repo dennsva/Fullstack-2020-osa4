@@ -1,8 +1,0 @@
-POST http://localhost:3003/api/blogs
-content-type: application/json
-
-{
-  "title": "Test Blog 5",
-  "author": "Dennis the Menace",
-  "url": "google.fi"
-}
