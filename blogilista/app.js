@@ -6,6 +6,7 @@ require('express-async-errors')
 const logger = require('./utils/logger')
 
 const blogsRouter = require('./controllers/blogs')
+const usersRouter = require('./controllers/users')
 const middleware = require('./utils/middleware')
 
 const app = express()
@@ -13,6 +14,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 
 const Blog = require('./models/blog.js')
+const User = require('./models/user.js')
 
 logger.info('Connecting to', config.MONGODB_URI)
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true})
@@ -29,6 +31,7 @@ app.use(express.json())
 //app.use(middleware.requestLogger)
 
 app.use('/api/blogs', blogsRouter)
+app.use('/api/users', usersRouter)
 
 app.get('', (request, response) => {
   response.send("Hello World!\n")
